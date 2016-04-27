@@ -39,6 +39,15 @@ syn match coffeeKeyword /\<for\s\+own\>/ contained containedin=coffeeRepeat
 \                       display
 hi def link coffeeKeyword Keyword
 
+" module keyword for AMD and CMD
+syn match coffeeModuleKeyword /\(require\|define\|module\)/ display
+hi def link coffeeModuleKeyword Keyword
+
+" Match for function call: console.log() or say()
+" TODO match for method call @say()
+syn match coffeeFuncCall /\k\+\%(\s*(\)\@=/ display
+hi def link coffeeFuncCall Statement
+
 syn match coffeeOperator /\<\%(instanceof\|typeof\|delete\)\>/ display
 hi def link coffeeOperator Operator
 
@@ -75,9 +84,13 @@ hi def link coffeeObject Structure
 syn match coffeeConstant /\<\u[A-Z0-9_]\+\>/ display
 hi def link coffeeConstant Constant
 
+" A match for "=>" and "->"
+syn match coffeeArrow /\(-\|=\)>/ display
+hi def link coffeeArrow Operator
+
 " A variable name
-syn cluster coffeeIdentifier contains=coffeeSpecialVar,coffeeSpecialIdent,
-\                                     coffeeObject,coffeeConstant
+syn cluster coffeeIdentifier contains=coffeeSpecialVar,coffeeSpecialIdent,coffeeObject,
+            \ coffeeConstant,coffeeArrow,coffeeFuncCall
 
 " A non-interpolated string
 syn cluster coffeeBasicString contains=@Spell,coffeeEscape
